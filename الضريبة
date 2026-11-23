@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ahmed Ibrahim</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code:wght@400;600&family=Orbitron:wght@800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060d;--c:#22e4ff;--m:#ff2e88;--amb:#ffb020;--txt:#d7e3f4;--mut:#6b7a99;
+ --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--txt);font-family:'Cairo',sans-serif;overflow:hidden;padding-top:var(--st);padding-bottom:var(--sb)}
+.bg{position:fixed;inset:0;z-index:0;
+ background:radial-gradient(60% 40% at 80% 10%,rgba(255,46,136,.16),transparent 70%),
+ radial-gradient(60% 45% at 15% 95%,rgba(34,228,255,.16),transparent 70%)}
+.bg::after{content:"";position:absolute;inset:0;
+ background:linear-gradient(rgba(34,228,255,.05) 1px,transparent 1px) 0 0/44px 44px,
+ linear-gradient(90deg,rgba(34,228,255,.05) 1px,transparent 1px) 0 0/44px 44px;
+ -webkit-mask:radial-gradient(circle at center,#000 20%,transparent 75%);mask:radial-gradient(circle at center,#000 20%,transparent 75%);
+ animation:gm 14s linear infinite}
+@keyframes gm{to{background-position:0 44px,44px 0}}
+.scan{position:fixed;left:0;right:0;height:2px;z-index:6;pointer-events:none;opacity:.45;
+ background:linear-gradient(90deg,transparent,var(--c),transparent);animation:sc 3.4s linear infinite}
+@keyframes sc{from{top:-2px}to{top:100%}}
+#fl{position:fixed;inset:0;z-index:30;pointer-events:none;background:#fff;opacity:0}
+#fl.go{animation:fl .45s}
+@keyframes fl{0%{opacity:.5}30%{opacity:0;transform:translateX(6px)}45%{opacity:.25}100%{opacity:0}}
+.screen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ padding:18px;text-align:center;opacity:0;visibility:hidden;transform:scale(1.05);filter:blur(8px);
+ transition:opacity .6s,transform .6s,filter .6s,visibility .6s;overflow-y:auto}
+.screen.on{opacity:1;visibility:visible;transform:none;filter:none}
+
+/* loader */
+.glitch{position:relative;font:900 clamp(1.9rem,9.5vw,3.8rem)/1.1 'Orbitron',sans-serif;letter-spacing:.05em;color:#fff;
+ text-shadow:0 0 22px rgba(34,228,255,.65);direction:ltr}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;inset:0;mix-blend-mode:screen}
+.glitch::before{color:var(--c);animation:g1 2.4s infinite steps(1)}
+.glitch::after{color:var(--m);animation:g2 1.9s infinite steps(1)}
+@keyframes g1{0%,100%{clip-path:inset(0 0 85% 0);transform:translate(-3px,0)}20%{clip-path:inset(35% 0 40% 0);transform:translate(-7px,1px)}
+ 45%{clip-path:inset(72% 0 4% 0);transform:translate(3px,0)}70%{clip-path:inset(12% 0 62% 0);transform:translate(6px,-1px)}}
+@keyframes g2{0%,100%{clip-path:inset(62% 0 10% 0);transform:translate(3px,0)}25%{clip-path:inset(6% 0 78% 0);transform:translate(7px,-1px)}
+ 55%{clip-path:inset(42% 0 36% 0);transform:translate(-4px,1px)}80%{clip-path:inset(82% 0 0 0);transform:translate(-6px,0)}}
+.glitch.shake{animation:shk .22s}
+@keyframes shk{25%{transform:translate(-5px,2px) skewX(8deg)}75%{transform:translate(5px,-2px) skewX(-8deg)}}
+#sub{margin-top:18px;max-width:28ch;font-weight:700;font-size:clamp(1rem,4.2vw,1.3rem);line-height:1.8;
+ opacity:0;letter-spacing:.25em;transition:opacity 1s,letter-spacing 1.2s}
+#sub.in{opacity:1;letter-spacing:0}
+.seg{display:flex;gap:3px;width:min(82vw,340px);margin-top:30px;direction:ltr}
+.seg i{flex:1;height:9px;border-radius:2px;background:#121a33;transition:.15s}
+.seg i.on{background:var(--c);box-shadow:0 0 10px var(--c)}
+.meta{margin-top:10px;width:min(82vw,340px);display:flex;justify-content:space-between;font:.72rem 'Fira Code',monospace;color:var(--mut);direction:ltr}
+
+/* panel / start */
+.panel{width:min(92vw,440px);padding:26px 22px;border-radius:18px;background:rgba(10,14,28,.8);backdrop-filter:blur(14px);
+ border:1px solid rgba(34,228,255,.25);box-shadow:0 20px 60px rgba(0,0,0,.6),inset 0 0 30px rgba(34,228,255,.04)}
+h1.t{font-weight:900;font-size:clamp(1.35rem,6vw,1.9rem);line-height:1.5}
+.lead{margin-top:6px;color:var(--mut);font-size:.9rem;line-height:1.7}
+label{display:block;margin:20px 0 8px;font-weight:700;font-size:.85rem;text-align:right}
+.inp{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(34,228,255,.35);background:#03050c;color:var(--c);
+ font:600 1.1rem 'Fira Code',monospace;letter-spacing:.15em;text-align:center;outline:none;transition:.25s;direction:ltr}
+.inp:focus{border-color:var(--c);box-shadow:0 0 20px rgba(34,228,255,.25)}
+.inp.bad{border-color:var(--m);animation:shk .3s}
+.cnt{margin-top:6px;font:.72rem 'Fira Code',monospace;color:var(--mut);text-align:left;direction:ltr}
+.btn{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;margin-top:14px;padding:14px;border-radius:12px;
+ font:700 1rem 'Cairo',sans-serif;cursor:pointer;transition:.25s;text-decoration:none;border:1px solid var(--c);color:var(--c);background:rgba(34,228,255,.07)}
+.btn.main{background:var(--c);color:#021016;box-shadow:0 8px 28px rgba(34,228,255,.35)}
+.btn.alt{border-color:var(--m);color:var(--m);background:rgba(255,46,136,.07)}
+.btn:hover,.btn:focus-visible{transform:translateY(-2px);box-shadow:0 0 26px rgba(34,228,255,.4);outline:none}
+.btn.alt:hover{box-shadow:0 0 26px rgba(255,46,136,.4)}
+.or{display:flex;align-items:center;gap:10px;margin-top:16px;color:var(--mut);font-size:.8rem}
+.or::before,.or::after{content:"";flex:1;border-top:1px solid rgba(255,255,255,.1)}
+
+/* process */
+.top{width:min(96vw,660px);display:flex;align-items:center;gap:12px;text-align:right}
+.radar{flex:none;width:38px;height:38px;border-radius:50%;border:2px solid var(--c);position:relative}
+.radar::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--c);animation:rp 1.6s infinite}
+@keyframes rp{from{transform:scale(1);opacity:.8}to{transform:scale(1.9);opacity:0}}
+#hd{font-weight:900;font-size:1.05rem}#hs{font-size:.78rem;color:var(--mut)}
+#pc{margin-inline-start:auto;font:600 1.3rem 'Fira Code',monospace;color:var(--c)}
+.chips{width:min(96vw,660px);display:flex;gap:8px;margin:12px 0 10px;direction:ltr}
+.chip{flex:1;padding:7px 10px;border-radius:9px;background:rgba(10,14,28,.8);border:1px solid rgba(255,255,255,.08);text-align:left;min-width:0}
+.chip small{display:block;font:.62rem 'Fira Code',monospace;color:var(--mut)}
+.chip b{display:block;font:600 .78rem 'Fira Code',monospace;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.term{width:min(96vw,660px);height:min(52vh,400px);display:flex;flex-direction:column;text-align:left;border-radius:12px;
+ background:rgba(3,5,12,.92);border:1px solid rgba(34,228,255,.28);box-shadow:0 0 34px rgba(34,228,255,.12)}
+.tt{display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.07);font:.7rem 'Fira Code',monospace;color:var(--mut);direction:ltr}
+.tt s{width:9px;height:9px;border-radius:50%;background:var(--m)}.tt s:nth-child(2){background:var(--amb)}.tt s:nth-child(3){background:var(--c)}
+#tb{flex:1;overflow:hidden;padding:10px 12px;font:.74rem/1.65 'Fira Code',monospace;direction:ltr;display:flex;flex-direction:column;justify-content:flex-end}
+#tb div{white-space:pre-wrap;word-break:break-all;animation:li .15s}
+@keyframes li{from{opacity:0;transform:translateX(-6px)}}
+#tb b{color:var(--m)}#tb em{color:var(--c);font-style:normal}#tb i{color:var(--amb);font-style:normal}
+.cmd{color:#fff}.cmd u{text-decoration:none;color:var(--c);animation:bl .7s infinite}
+.hx{color:#3a4668}.hx .m{color:#56688f}.ok{color:var(--c)}.wr{color:var(--amb)}.er{color:var(--m)}
+@keyframes bl{50%{opacity:0}}
+.pbar{width:min(96vw,660px);height:5px;margin-top:12px;border-radius:9px;background:#121a33;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c),var(--m));transition:width .3s}
+
+/* done */
+.ck{width:86px;height:86px;border-radius:50%;display:grid;place-items:center;font-size:2.8rem;color:var(--c);border:3px solid var(--c);
+ box-shadow:0 0 34px rgba(34,228,255,.55);animation:pop .7s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(0) rotate(-120deg)}}
+.sum{margin-top:18px;width:min(92vw,440px);display:grid;gap:8px}
+.sum div{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(10,14,28,.8);border:1px solid rgba(255,255,255,.08);font-size:.82rem}
+.sum b{font-family:'Fira Code',monospace;color:var(--c);direction:ltr}
+.joke{margin-top:16px;width:min(92vw,440px);padding:14px;border-radius:14px;border:1px dashed var(--amb);background:rgba(255,176,32,.08);
+ color:var(--amb);font-weight:700;font-size:.9rem;line-height:1.8;max-height:0;opacity:0;overflow:hidden;padding-block:0;transition:all .7s}
+.joke.in{max-height:260px;opacity:1;padding-block:14px}
+.acts{width:min(92vw,440px);opacity:0;pointer-events:none;transition:opacity .6s}.acts.in{opacity:1;pointer-events:auto}
+footer{position:fixed;bottom:calc(6px + var(--sb));left:0;right:0;z-index:12;text-align:center;font-size:.7rem;color:var(--mut);pointer-events:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="scan"></div><div id="fl"></div>
+
+<!-- 1 loader -->
+<section class="screen on" id="s1">
+  <div class="glitch" id="gt" data-t="">&nbsp;</div>
+  <p id="sub">حل مشكلة الضريبة الايفون والاندرويد لأول مرة في مصر</p>
+  <div class="seg" id="seg"></div>
+  <div class="meta"><span id="bl">boot</span><span id="lp">0%</span></div>
+</section>
+
+<!-- 2 start -->
+<section class="screen" id="s2">
+  <div class="panel">
+    <h1 class="t">منظومة فحص الشبكة وتهيئة الـ IMEI</h1>
+    <p class="lead">اكتب رقم الـ IMEI بتاع جهازك أو سيب الفحص يتعرف على الهاتف تلقائي</p>
+    <label for="imei">رقم الـ IMEI (15 رقم)</label>
+    <input class="inp" id="imei" maxlength="15" inputmode="numeric" placeholder="358940110928471" autocomplete="off">
+    <div class="cnt" id="cnt">0/15</div>
+    <button class="btn main" id="bm">⚡ ابدأ التهيئة بالـ IMEI</button>
+    <div class="or">أو</div>
+    <button class="btn alt" id="bs">📡 فحص الهاتف تلقائي</button>
+  </div>
+</section>
+
+<!-- 3 process -->
+<section class="screen" id="s3">
+  <div class="top"><div class="radar"></div><div><div id="hd">جاري الاتصال</div><div id="hs">تهيئة البروتوكولات</div></div><div id="pc">0%</div></div>
+  <div class="chips"><div class="chip"><small>DEVICE</small><b id="cd">-</b></div><div class="chip"><small>IMEI</small><b id="ci">-</b></div></div>
+  <div class="term"><div class="tt"><s></s><s></s><s></s>&nbsp;root@modem-bridge:~</div><div id="tb"></div></div>
+  <div class="pbar"><i id="pb"></i></div>
+</section>
+
+<!-- 4 done -->
+<section class="screen" id="s4">
+  <div class="ck">✓</div>
+  <h1 class="t" style="margin-top:18px">تم حل مشكلة الضريبة</h1>
+  <div class="sum">
+    <div><span>الجهاز</span><b id="rd">-</b></div>
+    <div><span>الـ IMEI الأصلي</span><b id="ro">-</b></div>
+    <div><span>الـ IMEI الجديد</span><b id="rn">-</b></div>
+    <div><span>حالة التسجيل</span><b>REGISTERED</b></div>
+  </div>
+  <div class="joke" id="jk">تم حل مشكلة الضريبة اتاكد من الارسال كدا اعمل لايك بقه .</div>
+  <div class="acts" id="ac">
+    <a class="btn main" href="https://t.me/ahmed24m8" target="_blank" rel="noopener"> قناة التليجرام</a>
+    <button class="btn" id="again">
+ إعادة من جديد</button>
+  </div>
+</section>
+
+<footer>تم صنع الموقع بواسطة ahmedv512_tiktok</footer>
+
+<script>
+const $=id=>document.getElementById(id),sleep=ms=>new Promise(r=>setTimeout(r,ms)),rnd=n=>Math.random()*n|0;
+const hex=n=>[...Array(n)].map(()=>'0123456789ABCDEF'[rnd(16)]).join('');
+const dig=n=>[...Array(n)].map(()=>rnd(10)).join('');
+function luhn(b){let s=0;for(let i=0;i<b.length;i++){let d=+b[b.length-1-i];if(i%2==0){d*=2;if(d>9)d-=9}s+=d}return(10-s%10)%10}
+const genImei=()=>{const b='35'+dig(12);return b+luhn(b)};
+function beep(f=700,d=.05){try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.type='square';o.frequency.value=f;g.gain.value=.02;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}catch(e){}}
+function show(id){const f=$('fl');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+
+/* ---------- loader ---------- */
+async function decode(el,fin,ms){
+  const ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&@',t0=performance.now();let k=0;
+  while(k<1){k=Math.min(1,(performance.now()-t0)/ms);const n=Math.floor(k*fin.length);let o='';
+    for(let i=0;i<fin.length;i++)o+=fin[i]===' '?' ':(i<n?fin[i]:ch[rnd(ch.length)]);
+    el.textContent=o;el.dataset.t=o;await sleep(34)}
+  el.textContent=fin;el.dataset.t=fin;
+}
+async function loader(){
+  const seg=$('seg');for(let i=0;i<24;i++)seg.appendChild(document.createElement('i'));
+  await sleep(500);const g=$('gt');
+  await decode(g,'AHMED IBRAHIM',1600);beep(520,.08);
+  $('sub').classList.add('in');
+  const msgs=['mounting /dev/modem','loading cert store','probing baseband','syncing registry','ready'];let p=0;
+  while(p<100){p=Math.min(100,p+rnd(6)+2);
+    [...seg.children].forEach((e,i)=>e.classList.toggle('on',i<Math.round(p/100*24)));
+    $('lp').textContent=Math.floor(p)+'%';$('bl').textContent=msgs[Math.min(4,Math.floor(p/100*5))];
+    if(Math.random()>.78){g.classList.remove('shake');void g.offsetWidth;g.classList.add('shake');beep(260,.04)}
+    await sleep(120)}
+  await sleep(600);show('s2');
+}
+
+/* ---------- start screen ---------- */
+const inp=$('imei');
+inp.oninput=()=>{inp.value=inp.value.replace(/\D/g,'');inp.classList.remove('bad');$('cnt').textContent=inp.value.length+'/15'};
+$('bm').onclick=()=>{if(!/^\d{15}$/.test(inp.value)){inp.classList.remove('bad');void inp.offsetWidth;inp.classList.add('bad');inp.focus();return}run(inp.value)};
+$('bs').onclick=()=>run(genImei());
+function detect(){const u=navigator.userAgent;
+  if(/iPhone/.test(u))return'iPhone';if(/iPad/.test(u))return'iPad';
+  if(/Android/.test(u)){const m=u.match(/;\s*([^;)]+?)\s+Build/);return m?m[1]:'Android Device'}
+  return'Unknown Device'}
+
+/* ---------- terminal engine ---------- */
+const tb=$('tb');
+const ln=(c='')=>{const d=document.createElement('div');d.className=c;tb.appendChild(d);while(tb.children.length>40)tb.firstChild.remove();return d};
+async function out(t,c='',ms=80){const d=ln(c);d.innerHTML=t;await sleep(ms)}
+async function cmd(t){const d=ln('cmd');d.innerHTML='<b>❯</b> <span></span><u>█</u>';const s=d.querySelector('span');
+  for(const c of t){s.textContent+=c;await sleep((c===' '?70:14)+rnd(38))}
+  d.querySelector('u').remove();await sleep(260)}
+async function spin(label,ms){const d=ln('sp'),f='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏';let i=0;
+  const iv=setInterval(()=>d.innerHTML=`<i>${f[i++%10]}</i> ${label}`,80);await sleep(ms);clearInterval(iv);d.innerHTML=`<em>✔</em> ${label}`;await sleep(120)}
+async function bar(label,ms){const d=ln('sp'),t0=performance.now();let k=0;
+  while(k<1){k=Math.min(1,(performance.now()-t0)/ms);const n=Math.round(k*22);
+    d.innerHTML=`${label} <em>[${'█'.repeat(n)}${'░'.repeat(22-n)}]</em> ${Math.round(k*100)}%`;await sleep(60)}await sleep(160)}
+async function burst(n){for(let i=0;i<n;i++)await out(`<span class="m">0x${hex(4)}</span> ${hex(8)} ${hex(8)} ${hex(8)} ${hex(8)}`,'hx',26)}
+async function reveal(pre,fin,ms){const d=ln('ok'),t0=performance.now();let k=0;
+  while(k<1){k=Math.min(1,(performance.now()-t0)/ms);const n=Math.floor(k*fin.length);
+    d.textContent=pre+fin.slice(0,n)+[...fin.slice(n)].map(()=>'0123456789ABCDEF'[rnd(16)]).join('');await sleep(40)}
+  d.textContent=pre+fin;await sleep(150)}
+function setP(p,h,s){$('pb').style.width=p+'%';$('pc').textContent=p+'%';if(h){$('hd').textContent=h;$('hs').textContent=s}beep(500+p*4,.05)}
+
+async function run(imei){
+  const dev=detect(),neu=genImei();
+  $('cd').textContent=dev;$('ci').textContent=imei;tb.innerHTML='';setP(0,'جاري الاتصال بالمودم','تهيئة بروتوكولات الفحص');
+  show('s3');await sleep(900);
+
+  setP(8,'فحص الهاتف','قراءة بيانات الـ Baseband');
+  await cmd(`modem-bridge --attach "${dev}"`);
+  await spin('Attaching to baseband processor',1100);
+  await out(`<i>[INFO]</i> baseband fw: BB-${hex(4)}-${hex(2)} (secure boot: on)`);
+  await out(`<i>[INFO]</i> IMEI slot 1: ${imei}`);
+
+  setP(25,'فك تشفير الاتصال','تجاوز فحص شهادات SSL');
+  await cmd('ssl-unpin --target registry-gateway --verbose');
+  await spin('TLS 1.3 handshake',1000);
+  await reveal('cert sha256: ',hex(40),1100);
+  await spin('Bypassing certificate pinning',1400);
+  await burst(7);
+
+  setP(45,'قراءة ذاكرة الجهاز','تفريغ قطاع NV-RAM');
+  await cmd('nv-read --item IMEI --raw');
+  await bar('Dumping NV-RAM',2600);
+  await out(`<em>[OK]</em> sector 0x${hex(4)} read (${rnd(40)+80} KB)`,'ok');
+
+  setP(62,'توليد IMEI جديد','حساب رقم متوافق مع الشبكة');
+  await cmd('imei-gen --luhn --tac 35');
+  await reveal('new IMEI: ',neu,1500);
+  await burst(5);
+
+  setP(78,'كتابة البيانات','تثبيت الرقم على الشريحة الأولى');
+  await cmd('nv-write --slot 1 --commit');
+  await spin('Writing new IMEI to SIM 1',1700);
+  await out('<i>[WARN]</i> verifying signature ...','wr',500);
+
+  setP(92,'مزامنة السجل','مطابقة حالة الجهاز مع البوابة');
+  await cmd('registry-sync --country EG --tax');
+  await spin('Authenticating session',1200);
+  await bar('Syncing registry records',2600);
+  await out('<em>[OK]</em> status: REGISTERED','ok',400);
+  await burst(4);
+  await cmd('exit 0');
+
+  setP(100,'اكتمل','تم حفظ الإعدادات');beep(900,.25);await sleep(900);
+  $('rd').textContent=dev;$('ro').textContent=imei;$('rn').textContent=neu;
+  $('jk').classList.remove('in');$('ac').classList.remove('in');
+  show('s4');
+  await sleep(3000);$('jk').classList.add('in');beep(330,.15);
+  await sleep(1200);$('ac').classList.add('in');
+}
+$('again').onclick=()=>{inp.value='';$('cnt').textContent='0/15';show('s2')};
+loader();
+</script>
+</body>
+</html>
